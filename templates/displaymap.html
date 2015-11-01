@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Knox Asset Map</title>
+		<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+		<script src="http://maps.googleapis.com/maps/api/js"></script>
+	</head>
+
+	<body>
+		<div id="googleMap" style="width:900px;height: 650px;align: center;"></div>
+	</body>
+
+
+	<script type="text/javascript">
+		var markers = [];
+		var map = undefined;
+
+		setInterval(function(){
+
+			$.ajax({
+			  url: "/location/get/all",
+			  context: document.body
+			}).done(function(data) {
+			  var data = JSON.parse(data);
+
+			  for (var i = 0; i < markers.length; i++) {
+				markers[i].setMap(null);
+			  }
+			  markers = [];
+
+                          for (var i = 0; i < data.length; i++) {
+
+				 var myLatLng = {lat: data[i][1], lng: data[i][2]};
+
+				  var marker = new google.maps.Marker({
+				    position: myLatLng,
+				    map: map,
+				    title: data[i][0]
+				  });
+
+				  markers[markers.length] = marker;
+			  }
+			});
+
+		}, 1000);
+		
+
+		function initialize() {
+		  console.log("HAI");
+		  // Singleton: -32.72771, 151.13181
+		  // Knox Grammar: -33.72425,151.11586
+		  var mapProp = {
+		    center:new google.maps.LatLng(-33.72425, 151.11586),
+		    zoom:15,
+		    mapTypeId:google.maps.MapTypeId.ROADMAP
+		  };
+		  map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+		}
+		google.maps.event.addDomListener(window, 'load', initialize);
+	</script>
+
+</html>
+                                                    

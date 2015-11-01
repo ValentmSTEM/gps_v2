@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Knox Asset Map</title>
+		<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+	</head>
+
+	<body>
+		<p id="test"></p>
+
+		<table style="width: 100%;">
+			<thead>
+				<tr style="font-weight: bold;">
+					<td>UUID</td>
+					<td>Latitude</td>
+					<td>Longitude</td>
+					<td>Time (epoch)</td>
+				</tr>
+			</thead>
+			<tbody id="infotable">
+			</tbody>
+		</table>
+	</body>
+
+
+	<script type="text/javascript">
+		setInterval(function(){
+
+			$.ajax({
+			  url: "/location/get/all",
+			  context: document.body
+			}).done(function(data) {
+			  var data = JSON.parse(data);
+
+		
+
+                          var tablehtml = '';
+                          for (var i = 0; i < data.length; i++) {
+				var formattedDate = new Date (data[i][3] * 1000);
+
+				tablehtml += '<tr>';
+				tablehtml += '<td>' + data[i][0] + '</td>';
+				tablehtml += '<td>' + data[i][1] + '</td>';
+				tablehtml += '<td>' + data[i][2] + '</td>';
+				tablehtml += '<td>' + formattedDate.toLocaleString() + '</td>';
+				tablehtml += '</tr>';
+			  }
+
+			  $("#infotable").html(tablehtml);
+			});
+
+		}, 1000);
+		
+	</script>
+
+</html>
+                                                    

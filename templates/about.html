@@ -1,0 +1,17 @@
+<html>
+    <body>
+        <h1>hello {! name !}</h1>
+        
+        {% for a in randoms %}
+            <br>{! a !}</br>
+    {% end for %}
+    
+        <form method="post" action="/about">
+            First name:<br>
+            <input type="text" name="input_name">
+            <br>
+            <input type="submit" value="Submit">
+        </form>
+    
+    </body>
+</html>
