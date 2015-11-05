@@ -15,7 +15,7 @@
 
 <body layout="column" ng-app="baseApp" ng-controller="mainController as mainC">
     <md-toolbar layout="row">
-        <h1 flex="33" offset="13"><md-icon md-font-library="material-icons" style="font-size: 48px;">wifi tethering</md-icon> CMAPS </h1>
+        <a href="http://45.55.52.207"><h1 flex="33" offset="13"><md-icon md-font-library="material-icons" style="font-size: 48px;">wifi tethering</md-icon>CMAPS</h1></a>
         <div class="md-toolbar-tools">
             <md-button ng-click="mainC.toggle()" hide-gt-sm class="md-icon-button">
                 <md-icon aria-label="Menu" md-svg-icon="/static/img/menu.svg"></md-icon>
@@ -32,7 +32,7 @@
             </md-button>
             
             <md-button style="text-align:left" ng-click="mainC.activate('page2')">
-                <md-icon md-font-library="material-icons">tune</md-icon>
+                <md-icon md-font-library="material-icons">tune</md-icon> Page 2
                 <a href="http://knoxgps.ciphersink.net/displayall">Database display</a>
             </md-button>
             
@@ -56,9 +56,7 @@
             <md-content layout="row" flex="99" class="md-padding" ng-show="mainC.focus == 'page1'">
                 <div layout="column" flex="99">
 			<h1>Home</h1>
-			<p>Welcome to CMAPS (Cadet Mapping and Positioning System). </p>
-			<p> We are going to put resources and relevant documentation here once we have finished everything.</p>
-			<p> If you know some HTML please feel free to make this website pretty. </p>
+			<p>Welcome to the CMAPS website. </p>
 			<image src = "https://sites.google.com/site/aisitic2014/_/rsrc/1409871467427/presenters/Daniel-bailey.jpg" height="400" width="400"></image>
 		</div>
             </md-content>
