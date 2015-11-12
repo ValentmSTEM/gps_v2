@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="/static/css/angular-material.min.css">
+    <link rel="stylesheet" href="/static/css/r2k9.css">
+    <link rel="stylesheet" href="/static/fonts/roboto.css">
+    <link rel="stylesheet" href="/static/fonts/material-icons/materialicons.css">
+    <meta name="viewport" content="initial-scale=1" />
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+</head>
+
+<body layout="column" ng-app="baseApp" ng-controller="mainController as mainC">
+    <md-toolbar layout="row">
+        <a href="http://45.55.52.207"><h1 flex="33a" offset="13"><md-icon md-font-library="material-icons" style="font-size: 48px;">wifi tethering</md-icon> CMAPS </h1></a>
+        <div class="md-toolbar-tools">
+            <md-button ng-click="mainC.toggle()" hide-gt-sm class="md-icon-button">
+                <md-icon aria-label="Menu" md-svg-icon="/static/img/menu.svg"></md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+    <div layout="row" flex>
+		
+		<!-- sidenav -->
+        <md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')" style="padding-left: 22px;">
+            <md-button style="text-align:left" ng-click="mainC.activate('page1')">
+                <md-icon md-font-library="material-icons">reorder</md-icon>
+                 <a href="/displaymap">Map</a>
+            </md-button>
+            
+            <md-button style="text-align:left" ng-click="mainC.activate('page2')">
+                <md-icon md-font-library="material-icons">tune</md-icon>
+                <a href="/displayall">Database display</a>
+            </md-button>
+            
+            <md-button style="text-align:left" ng-click="mainC.activate('page3')">
+                <md-icon md-font-library="material-icons">tv</md-icon> Page 3
+            </md-button>
+            
+            <md-button style="text-align:left" ng-click="mainC.activate('page4')">
+                <md-icon md-font-library="material-icons">memory</md-icon> Page 4
+            </md-button>
+            
+            <md-button style="text-align:left" ng-click="mainC.activate('page5')">
+                <md-icon md-font-library="material-icons">share</md-icon> Page 5
+            </md-button>
+            
+
+        </md-sidenav>
+        
+        <!-- line by line container for main content -->
+        <div layout="column" flex="99" id="content">
+            <md-content layout="row" flex="99" class="md-padding" ng-show="mainC.focus == 'page1'">
+                <div layout="column" flex="99">
+			<h1>Home</h1>
+			<p>THIS IS PAGE 3!!!!!!!!!!!!!!!!!!!!!! </p>
+	
+		</div>
+            </md-content>
+            
+            <md-content layout="row" flex class="md-padding" ng-show="mainC.focus == 'page2'">
+                <a href="http://45.55.52.207"><h1>Page 2</h1></a>
+            </md-content>
+            
+            <md-content layout="row" flex class="md-padding" ng-show="mainC.focus == 'page3'">
+                <h1>Page 3</h1>
+            </md-content>
+            
+            <md-content layout="row" flex class="md-padding" ng-show="mainC.focus == 'page4'">
+                <div layout="column" flex="99">
+        	        <h1>Page 4</h1>
+			<p>The code variable 'focus' in the container has the value: {{ mainC.focus }}</p>
+		</div>
+            </md-content>
+            
+            <md-content layout="row" flex class="md-padding" ng-show="mainC.focus == 'page5'">
+                <h1>Page 5</h1>
+            </md-content>
+
+        </div>
+    </div>
+    
+    <!-- Angular Material Dependencies -->
+    <script src="/static/js/angular/angular.min.js"></script>
+    <script src="/static/js/angular/angular-animate.min.js"></script>
+    <script src="/static/js/angular/angular-aria.min.js"></script>
+    <script src="/static/js/angular/angular-messages.min.js"></script>
+    <script src="/static/js/angular/angular-material.min.js"></script>
+    <script src="/static/js/angular/angular-dragdrop.min.js"></script>
+
+    <!-- Base App Dependencies -->
+
+    <!-- Module declaration needs to come first -->
+    <script src="/static/js/app/baseApp.js"></script>
+    <script src="/static/js/app/loggerService.js"></script>
+
+    <!-- Module peripherals can come after in any order -->
+    <script src="/static/js/app/parametricController.js"></script>
+    <script src="/static/js/app/mainController.js"></script>
+
+  </body>
+</html>
