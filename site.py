@@ -24,6 +24,9 @@ def rangen():
 
 def textPage(response):
     response.write(TemplateAPI.render('game.py', response, {}))
+
+def Page3(response):
+    response.write(TemplateAPI.render('Page3.html', response, {}))
     
 def loginPage(response):
     name = response.get_field("name")
@@ -164,6 +167,7 @@ server.register("/about", aboutPage)
 server.register("/random", randPage)
 server.register("/text", textPage)
 server.register("/login", loginPage)
+server.register("/Page3", Page3)
 server.register("/signup", signupPage)
 server.register("/input", inputPage)
 server.register("/all", showAllDebugPage)
