@@ -15,7 +15,7 @@
 
 <body layout="column" ng-app="baseApp" ng-controller="mainController as mainC">
     <md-toolbar layout="row">
-        <a href="http://45.55.52.207"><h1 flex="33" offset="13"><md-icon md-font-library="material-icons" style="font-size: 48px;">wifi tethering</md-icon> CMAPS </h1></a>
+        <a href="http://45.55.52.207"><h1 flex="10" offset="13"><md-icon md-font-library="material-icons" style="font-size: 48px;">wifi tethering</md-icon> CMAPS </h1></a>
         <div class="md-toolbar-tools">
             <md-button ng-click="mainC.toggle()" hide-gt-sm class="md-icon-button">
                 <md-icon aria-label="Menu" md-svg-icon="/static/img/menu.svg"></md-icon>
@@ -37,7 +37,8 @@
             </md-button>
             
             <md-button style="text-align:left" ng-click="mainC.activate('page3')">
-                <md-icon md-font-library="material-icons">tv</md-icon> Page 3
+                <md-icon md-font-library="material-icons">tv</md-icon>
+                <a href="/page3">Page 3</a>
             </md-button>
             
             <md-button style="text-align:left" ng-click="mainC.activate('page4')">
