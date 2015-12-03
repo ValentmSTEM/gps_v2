@@ -152,7 +152,7 @@ void loop() {
     Serial.println(lon);
     uint16_t len;
     uint16_t statuscode;
-    String url = "http://45.55.52.207/location/push?uuid=172&latitude=";
+    String url = "http://cmaps.knox.nsw.edu.au/location/push?uuid=172&latitude=";
     char buff[120];
     floatToString(buff, lat , 8, 5);
     url += buff;
