@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Debug yolo data</title>
+	</head>
+
+	<body>
+	<table style="width:100%">
+	  <tr>
+	    <td>UUID</td>
+	    <td>Latitude</td> 
+	    <td>Longitude</td>
+	    <td>Time</td>
+	  </tr>
+	  {% for record in data %}
+	  <tr>
+	    <td>{! record[0] !}</td>
+	    <td>{! record[1] !}</td>
+	    <td>{! record[2] !}</td>
+	    <td>{! record[3] !}</td>
+	  </tr>
+	  {% end for %}
+	</table>
+	</body>			
+</html>
