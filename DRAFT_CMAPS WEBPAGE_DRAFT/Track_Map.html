@@ -1,0 +1,91 @@
+<!doctype html>
+
+<html lang="en">
+    <body background="images/patterBG.jpg">
+<head>
+<link rel="stylesheet" type="text/css" href="css/cmaps_css.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+		<script src="http://maps.googleapis.com/maps/api/js"></script>
+</head>
+<div id="mainContainer" align="center">
+   <header>
+    <img src="images/headerv5.png" width="1000" >	<label for="show-menu" class="show-menu">Show Menu</label>
+   </header>
+</div>
+<div id="mainContainer" align="centre">
+	<input type="checkbox" id="show-menu" role="button">
+    	<ul id="menu">
+		<li><a href="Main_Page.html">Home</a></li>
+		<li>
+			<a href="#">Tracking</a>
+			<ul class="hidden">
+				<li><a href="Track_Map.html">View Map</a></li>
+				<li><a href="Track_Database.html">View Database</a></li>
+			</ul>
+		</li>
+		<li><a href="#">Wiki</a></li>
+		<li><a href="#">About</a></li>
+	</ul>
+</div>
+<br><br><br>
+    <div id="mainContainer" align="centre">
+<section id="content-section">
+        <div class="body" align="centre">
+<p style="font-family:universltstd;"> </p>
+<br><br><br><br><br>
+		<div id="googleMap" style="width:1000px;height: 650px;align: center;"></div>
+    </div>
+</section>
+  </div>
+</div>
+    </body>
+	
+	<script type="text/javascript">
+		var markers = [];
+		var map = undefined;
+
+		setInterval(function(){
+
+			$.ajax({
+			  url: "/location/get/all",
+			  context: document.body
+			}).done(function(data) {
+			  var data = JSON.parse(data);
+
+			  for (var i = 0; i < markers.length; i++) {
+				markers[i].setMap(null);
+			  }
+			  markers = [];
+
+                          for (var i = 0; i < data.length; i++) {
+
+				 var myLatLng = {lat: data[i][1], lng: data[i][2]};
+
+				  var marker = new google.maps.Marker({
+				    position: myLatLng,
+				    map: map,
+				    title: data[i][0]
+				  });
+
+				  markers[markers.length] = marker;
+			  }
+			});
+
+		}, 1000);
+		
+
+		function initialize() {
+		  console.log("HAI");
+		  // Singleton: -32.72771, 151.13181
+		  // Knox Grammar: -33.72425,151.11586
+		  var mapProp = {
+		    center:new google.maps.LatLng(-33.72425, 151.11586),
+		    zoom:15,
+		    mapTypeId:google.maps.MapTypeId.ROADMAP
+		  };
+		  map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+		}
+		google.maps.event.addDomListener(window, 'load', initialize);
+	</script>
+</html>

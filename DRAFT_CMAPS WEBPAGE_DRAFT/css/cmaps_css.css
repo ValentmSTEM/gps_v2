@@ -1,0 +1,148 @@
+@font-face {
+  font-family: 'universltstd';
+  src: url(font/universltstd/universltstd-cn.otf); 
+}
+@font-face {
+    font-family: 'universltstd-ultracn';
+    src: url(font/universltstd/universltstd-ultracn.otf); 
+}
+.UniversLTStd {
+  font-family: 'universltstd';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px; 
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+.universltstd-ultracncn {
+  font-family: 'universltstd-ultracncn';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px; 
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+#mainContainer
+        {
+        margin:0 auto;
+        width: 70%;
+         }
+#content-section{
+    background-color: white;
+    margin-top:-18px;
+    width:1000px;
+}
+ul {
+	list-style-type:none;
+	margin:0;
+	padding:0;
+	position: absolute;
+}
+li {
+	display:inline-block;
+	float: left;
+	margin-right: 1px;
+}
+li a {
+	display:block;
+	min-width:249px;
+	height: 50px;
+	text-align: center;
+	line-height: 50px;
+    font-size: 30px; 
+	font-family: "universltstd-ultracn";
+	color: #fff;
+	background: #2f3036;
+	text-decoration: none;
+}
+li:hover a {
+	background: #003399;
+}
+li:hover ul a {
+	background: #f3f3f3;
+	color: #2f3036;
+	height: 40px;
+	line-height: 40px;
+}
+li:hover ul a:hover {
+	background: #003399;
+	color: #fff;
+}
+li ul {
+	display: none;
+}
+li ul li {
+	display: block;
+	float: none;
+}
+li ul li a {
+	width: auto;
+	min-width: 249px;
+	padding: 0 20px;
+}
+ul li a:hover + .hidden, .hidden:hover {
+	display: block;
+}
+.show-menu {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	text-decoration: none;
+	color: #fff;
+	background: #19c589;
+	text-align: center;
+	padding: 10px 0;
+	display: none;
+}
+input[type=checkbox]{
+    display: none;
+}
+input[type=checkbox]:checked ~ #menu{
+    display: block;
+}
+@media screen and (max-width : 760px){
+	ul {
+		position: static;
+		display: none;
+	}
+	li {
+		margin-bottom: 1px;
+	}
+	ul li, li a {
+		width: 100%;
+	}
+	.show-menu {
+		display:block;
+	}
+}
