@@ -8,7 +8,7 @@ def dummy():
 
 
 def indexPage(response):
-    response.write(TemplateAPI.render('website.html', response, {}))
+    response.write(TemplateAPI.render('Main_Page.html', response, {}))
 
 def aboutPage(response):
     #response.write("HELLO WORLD")
@@ -48,10 +48,10 @@ def inputPage(response):
     response.write(TemplateAPI.render('input.html', response, {}))
 
 def displayAllPage(response):    
-    response.write(TemplateAPI.render('displayall.html', response, {}))
+    response.write(TemplateAPI.render('Track_Database.html', response, {}))
 
 def displayMapPage(response):    
-    response.write(TemplateAPI.render('displaymap.html', response, {}))
+    response.write(TemplateAPI.render('Track_Map.html', response, {}))
 
 
 def inputHandler(response):
@@ -173,6 +173,6 @@ server.register("/input", inputPage)
 server.register("/all", showAllDebugPage)
 server.register("/location/push", inputHandler)
 server.register("/location/get/all", getLatestHandler)
-server.register("/displayall", displayAllPage)
-server.register("/displaymap",displayMapPage)
+server.register("/Track_Database", displayAllPage)
+server.register("/Track_Map",displayMapPage)
 server.run(dummy)
