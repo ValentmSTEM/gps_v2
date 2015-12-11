@@ -133,10 +133,12 @@ void setup() {
     Serial.println(F("Couldn't find FONA"));
     while (1);
   }
-
+fona.setGPRSNetworkSettings(F("mdata.net.au")); //use this for Aldi SIM card - added by MV to improve lock success
+  // fona.setGPRSNetworkSettings(F("telstra.iph")); //use this for Telstra SIM card - added by MV to improve lock success
   fona.enableGPS(true);
   delay(2000);
-  fona.setGPRSNetworkSettings(F("mdata.net.au"));
+  fona.setGPRSNetworkSettings(F("mdata.net.au")); //use this for Aldi SIM card
+  // fona.setGPRSNetworkSettings(F("telstra.iph")); //use this for Telstra SIM card
   fona.enableGPRS(true);
   delay(2000);
 }
@@ -152,7 +154,7 @@ void loop() {
     Serial.println(lon);
     uint16_t len;
     uint16_t statuscode;
-    String url = "http://45.55.52.207/location/push?uuid=172&latitude=";
+    String url = "http://cmaps.knox.nsw.edu.au/location/push?uuid=172&latitude=";
     char buff[120];
     floatToString(buff, lat , 8, 5);
     url += buff;
