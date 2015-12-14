@@ -134,7 +134,7 @@ void setup() {
     while (1);
   }
 
-  Adafruit_FONA_3G::fona.enableGPS(true); // Adafruit_FONA_3G:: for 3G and Adafruit_FONA:: for the 808
+  fona.enableGPS(true); // turns GPS on
   delay(2000);
   fona.setGPRSNetworkSettings(F("telstra.iph")); // Use for Telsra SIM
   // fona.setGPRSNetworkSettings(F("mdata.net.au")); //use for Aldi SIM
