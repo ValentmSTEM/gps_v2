@@ -168,7 +168,7 @@ void loop() {
     while(fona.available())fona.read();
 
     fona.HTTP_GET_end();
-    delay(300000); // the aim here is to have a 5 minute delay between between sends once lock is achieved
+    delay(300000); // the aim here is to have a 5 minute delay between sends once lock is achieved
   }
   else {
     Serial.println("No lock");
