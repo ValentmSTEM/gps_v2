@@ -125,7 +125,7 @@ void setup() {
   while (!Serial);
 
   Serial.begin(115200);
-  Serial.println(F("FONA basic test"));
+  Serial.println(F("CMAPS GPS sketch loaded"));
   Serial.println(F("Initializing....(May take 3 seconds)"));
 
   fonaSerial->begin(4800);
@@ -133,7 +133,7 @@ void setup() {
     Serial.println(F("Couldn't find FONA"));
     while (1);
   }
-fona.setGPRSNetworkSettings(F("mdata.net.au")); //use this for Aldi SIM card - added by MV to improve lock success
+ fona.setGPRSNetworkSettings(F("mdata.net.au")); //use this for Aldi SIM card - added by MV to improve lock success
   // fona.setGPRSNetworkSettings(F("telstra.iph")); //use this for Telstra SIM card - added by MV to improve lock success
   fona.enableGPS(true);
   delay(2000);
@@ -168,6 +168,7 @@ void loop() {
     while(fona.available())fona.read();
 
     fona.HTTP_GET_end();
+    delay(300000); // the aim here is to have a 5 minute delay between between sends once lock is achieved
   }
   else {
     Serial.println("No lock");
