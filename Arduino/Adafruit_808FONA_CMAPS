@@ -133,7 +133,7 @@ void setup() {
     Serial.println(F("Couldn't find FONA"));
     while (1);
   }
- fona.setGPRSNetworkSettings(F("mdata.net.au")); //use this for Aldi SIM card - added by MV to improve lock success
+  fona.setGPRSNetworkSettings(F("mdata.net.au")); //use this for Aldi SIM card - added by MV to improve lock success
   // fona.setGPRSNetworkSettings(F("telstra.iph")); //use this for Telstra SIM card - added by MV to improve lock success
   fona.enableGPS(true);
   delay(2000);
