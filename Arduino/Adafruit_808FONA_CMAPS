@@ -17,6 +17,8 @@ Adafruit_FONA fona = Adafruit_FONA(FONA_RST);
 // Use this one for FONA 3G
 //Adafruit_FONA_3G fona = Adafruit_FONA_3G(FONA_RST);
 
+// Download this library for the 2 PIN LCD screen https://bitbucket.org/fmalpartida/new-liquidcrystal and rename folder 'LiquidCrystal_I2C' and remove other LCD folders
+
 // floatToString.h
 //
 // Tim Hirzel
