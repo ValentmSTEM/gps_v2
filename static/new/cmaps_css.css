@@ -69,7 +69,6 @@ ul {
 	list-style-type:none;
 	margin:0;
 	padding:0;
-	position: absolute;
 }
 li {
 	display:inline-block;
@@ -145,4 +144,13 @@ input[type=checkbox]:checked ~ #menu{
 	.show-menu {
 		display:block;
 	}
+}
+
+#menu {
+	display: inline-block;
+        margin: 0;
+        padding: 0;
+        /* For IE, the outcast */
+        zoom:1;
+        *display: inline;
 }

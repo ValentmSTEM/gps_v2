@@ -112,6 +112,7 @@ import time
 con = lite.connect('positions.db')
 cur = con.cursor()
 cur.execute("CREATE TABLE IF NOT EXISTS Positions (UUID int, Lat float, Lon float, Time timestamp)")
+cur.execute("CREATE INDEX IF NOT EXISTS PositionTime ON Positions (Time)")
 con.commit()
 cur.close()
 

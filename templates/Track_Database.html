@@ -1,18 +1,19 @@
 <!doctype html>
 
 <html lang="en">
-    <body background="images/patterBG.jpg">
 <head>
-<link rel="stylesheet" type="text/css" href="css/cmaps_css.css">
+<link rel="stylesheet" type="text/css" href="/static/new/cmaps_css.css">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-		<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+		<script src="/static/js/jquery-1.11.3.min.js"></script>
 </head>
+
+<body background="/static/new/images/patterBG.jpg">
 <div id="mainContainer" align="center">
    <header>
-    <img src="images/headerv5.png" width="1000" >	<label for="show-menu" class="show-menu">Show Menu</label>
+    <img src="/static/new/images/headerv5.png" width="1000" >	<label for="show-menu" class="show-menu">Show Menu</label>
    </header>
 </div>
-<div id="mainContainer" align="centre">
+<div id="mainContainer" align="center">
 	<input type="checkbox" id="show-menu" role="button">
     	<ul id="menu">
 		<li><a href="Main_Page.html">Home</a></li>
@@ -28,24 +29,20 @@
 	</ul>
 </div>
 <br><br><br>
-    <div id="mainContainer" align="centre">
-<section id="content-section">
-        <div class="body" align="left">
-<p style="font-family:universltstd;"> </p>
-<table style="width: 100%;">
-			<thead>
-				<tr style="font-weight: bold;">
-					<td>UUID</td>
-					<td>Latitude</td>
-					<td>Longitude</td>
-					<td>Time (epoch)</td>
-				</tr>
-			</thead>
-			<tbody id="infotable">
-			</tbody>
-					</table>
-    </div>
-</section>
+<div id="mainContainer" align="center">
+	<table style="width: 100%;">
+		<thead>
+			<tr style="font-weight: bold;">
+				<td>UUID</td>
+				<td>Latitude</td>
+				<td>Longitude</td>
+				<td>Time (epoch)</td>
+			</tr>
+		</thead>
+		<tbody id="infotable">
+		</tbody>
+	</table>
+</div>
   </div>
 </div>
     </body>
