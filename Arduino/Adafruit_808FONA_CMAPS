@@ -17,6 +17,25 @@ Adafruit_FONA fona = Adafruit_FONA(FONA_RST);
 // Use this one for FONA 3G
 //Adafruit_FONA_3G fona = Adafruit_FONA_3G(FONA_RST);
 
+////////////  LCD I2C DISPLAY /////////////////////////
+#include <Wire.h>
+#include <LCD.h>
+#include <LiquidCrystal_I2C.h>
+
+#define I2C_ADDR    0x27 // <<----- Add your address here.  Find it from I2C Scanner
+#define BACKLIGHT_PIN     3
+#define En_pin  2
+#define Rw_pin  1
+#define Rs_pin  0
+#define D4_pin  4
+#define D5_pin  5
+#define D6_pin  6
+#define D7_pin  7
+
+LiquidCrystal_I2C  lcd(I2C_ADDR,En_pin,Rw_pin,Rs_pin,D4_pin,D5_pin,D6_pin,D7_pin);
+
+///////////////// END LCD I2C DISPLAY //////////////////////////
+
 // Download this library for the 2 PIN LCD screen https://bitbucket.org/fmalpartida/new-liquidcrystal/downloads and rename folder 'LiquidCrystal_I2C' and remove other LCD folders
 
 // floatToString.h
@@ -143,6 +162,11 @@ void setup() {
   // fona.setGPRSNetworkSettings(F("telstra.iph")); //use this for Telstra SIM card
   fona.enableGPRS(true);
   delay(2000);
+    ////////////  LCD I2C DISPLAY /////////////////////////
+  lcd.begin(16,2); 
+  lcd.setBacklightPin(BACKLIGHT_PIN,POSITIVE);
+  lcd.setBacklight(HIGH);
+  lcd.home (); // go home
 }
 
 void loop() {
@@ -156,7 +180,7 @@ void loop() {
     Serial.println(lon);
     uint16_t len;
     uint16_t statuscode;
-    String url = "http://cmaps.knox.nsw.edu.au/location/push?uuid=172&latitude=";
+    String url = "http://cmaps.knox.nsw.edu.au/location/push?uuid=172&latitude=";  //IMPORTANT "uuid=" defines the unique ID. LABEL THE ARDUINO UNIT with the number after upload.
     char buff[120];
     floatToString(buff, lat , 8, 5);
     url += buff;
@@ -170,9 +194,30 @@ void loop() {
     while(fona.available())fona.read();
 
     fona.HTTP_GET_end();
+    
+      ////////////  LCD I2C DISPLAY /////////////////////////
+      
+    String lcdtopstring = "Lat: ";
+    lcdtopstring += lat;
+    String lcdbotstring = "Long: ";
+    lcdbotstring += lon; 
+    lcd.print(lcdtopstring); //display lat on top row
+    lcd.setCursor(0, 1); // Set cursor to bottom row
+    lcd.print(lcdbotstring); //display long on bot row
+    lcd.setCursor(0, 0); // Set cursor to top row again
+    //Next set cursor to second line display time
+    
     delay(300000); // the aim here is to have a 5 minute delay between sends once lock is achieved
+    
+    lcd.clear(); //clears LCD screen
+     ////////////  LCD I2C DISPLAY /////////////////////////
   }
   else {
     Serial.println("No lock");
+    
+    ////////////  LCD I2C DISPLAY /////////////////////////
+    lcd.print("No lock."); 
+    delay(1000);
+    lcd.clear();
   }
 }
