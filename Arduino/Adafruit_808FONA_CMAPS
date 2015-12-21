@@ -1,4 +1,4 @@
-  #include "Adafruit_FONA.h"
+#include "Adafruit_FONA.h"
 
 #define FONA_RX 2
 #define FONA_TX 3
@@ -154,12 +154,25 @@ void setup() {
     Serial.println(F("Couldn't find FONA"));
     while (1);
   }
-  fona.setGPRSNetworkSettings(F("mdata.net.au")); //use this for Aldi SIM card - added by MV to improve lock success
-  // fona.setGPRSNetworkSettings(F("telstra.iph")); //use this for Telstra SIM card - added by MV to improve lock success
+  
+  while (true) {
+    uint8_t stat = fona.getNetworkStatus();
+    if ((stat == 1) || (stat == 5)){
+      Serial.print(F("Network associated!: "));
+      Serial.println(stat);
+      break;
+    }
+    delay(500);
+      Serial.print(F("waiting for network: "));
+      Serial.println(stat);
+  }
+  
+  //fona.setGPRSNetworkSettings(F("mdata.net.au")); //use this for Aldi SIM card - added by MV to improve lock success
+  Serial.println(F("Setting APN"));
+  fona.setGPRSNetworkSettings(F("telstra.internet")); //use this for Telstra SIM card - added by MV to improve lock success
   fona.enableGPS(true);
   delay(2000);
-  fona.setGPRSNetworkSettings(F("mdata.net.au")); //use this for Aldi SIM card
-  // fona.setGPRSNetworkSettings(F("telstra.iph")); //use this for Telstra SIM card
+  Serial.println(F("Setting GPRS status"));
   fona.enableGPRS(true);
   delay(2000);
     ////////////  LCD I2C DISPLAY /////////////////////////
@@ -207,7 +220,7 @@ void loop() {
     lcd.setCursor(0, 0); // Set cursor to top row again
     //Next set cursor to second line display time
     
-    delay(300000); // the aim here is to have a 5 minute delay between sends once lock is achieved
+    delay(10000); // the aim here is to have a 5 minute delay between sends once lock is achieved
     
     lcd.clear(); //clears LCD screen
      ////////////  LCD I2C DISPLAY /////////////////////////
