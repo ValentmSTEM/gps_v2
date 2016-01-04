@@ -1,0 +1,58 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="/static/new/cmaps_css.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+		<script src="/static/js/jquery-1.11.3.min.js"></script>
+</head>
+
+<body background="/static/new/images/patterBG.jpg">
+<div align="center">
+   <header>
+    <img src="/static/new/images/headerv5.png" width="1000" >	<label for="show-menu" class="show-menu">Show Menu</label>
+   </header>
+</div>
+<div align="center">
+	<input type="checkbox" id="show-menu" role="button">
+    	<ul id="menu">
+		<li><a href="/">Home</a></li>
+		<li>
+			<a href="#">Tracking</a>
+			<ul class="hidden">
+				<li><a href="/Track_Map">View Map</a></li>
+				<li><a href="/Track_Database">View Database</a></li>
+				<li><a href="/assignments">Assignments</a></li>
+			</ul>
+		</li>
+		<li><a href="#">Wiki</a></li>
+		<li><a href="#">About</a></li>
+	</ul>
+</div>
+<br><br><br>
+<div id="mainContainer" align="center" style="color: white;">
+
+	{% for assignment in assignments %}
+		<div style="margin-bottom: 32px;">
+			<h4 style="text-decoration: underline;">UUID: {! assignment[0] !}</h4>
+			<p><b>Is Vehicle: </b>{% if assignment[1] %}Yes{% else %}No{% end if %}</p>
+			<p><b>Name: </b>{! assignment[2] !}</p>
+		</div>
+	{% end for %}
+
+
+	<hr>
+	<h3>Change Assignment</h3>
+	<form action="/ass/new" method="GET">
+		UUID: <input type="text" name="uuid" /> <br>
+		Name: <input type="text" name="name" /> <br>
+		Password: <input type="password" name="pass" /> <br>
+		<input type="radio" name="typ" value="0">Platoon<br>
+		<input type="radio" name="typ" value="1">Vehicle<br>
+		<input type="submit" value="Create">
+	</form>
+</div>
+	<script type="text/javascript">
+	</script>
+</html>
+

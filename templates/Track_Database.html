@@ -22,6 +22,7 @@
 			<ul class="hidden">
 				<li><a href="/Track_Map">View Map</a></li>
 				<li><a href="/Track_Database">View Database</a></li>
+				<li><a href="/assignments">Assignments</a></li>
 			</ul>
 		</li>
 		<li><a href="#">Wiki</a></li>
@@ -29,15 +30,17 @@
 	</ul>
 </div>
 <br><br><br>
-<div id="mainContainer" align="center">
-        <span id="updateStatus">Updating Soon</span>
+<div id="mainContainer" style="text-align: center">
+        <span id="updateStatus" style="text-align: left; color: white;">Updating Soon</span>
 	<table style="color: white;width: 100%;">
 		<thead>
 			<tr style="font-weight: bold;">
 				<td>UUID</td>
+				<td>Assigned To</td>
+				<td>Assignment Type</td>
 				<td>Latitude</td>
 				<td>Longitude</td>
-				<td>Time (epoch)</td>
+				<td>Time (AEST)</td>
 			</tr>
 		</thead>
 		<tbody id="infotable">
@@ -45,8 +48,9 @@
 	</table>
 </div>
 	<script type="text/javascript">
-		setInterval(function(){
+		var up = function(){
 			$("#updateStatus").html("Updating NOW");
+			$("#updateStatus").css("visibility", 'visible');
 			$.ajax({
 			  url: "/location/get/all",
 			  context: document.body
@@ -61,6 +65,12 @@
 
 				tablehtml += '<tr>';
 				tablehtml += '<td>' + data[i][0] + '</td>';
+				tablehtml += '<td>' + data[i][4] + '</td>';
+				if (data[i][5] == '1') {
+					tablehtml += '<td>Vehicle</td>';
+				} else {
+					tablehtml += '<td>Platoon</td>';
+				}
 				tablehtml += '<td>' + data[i][1] + '</td>';
 				tablehtml += '<td>' + data[i][2] + '</td>';
 				tablehtml += '<td>' + formattedDate.toLocaleString() + '</td>';
@@ -69,10 +79,12 @@
 
 			  $("#infotable").html(tablehtml);
 			  $("#updateStatus").html("Updating Soon");
+			  $("#updateStatus").css("visibility", 'hidden');
 			});
 
-		}, 15000);
-		
+		};
+		setInterval("up()", 15000);
+		up();		
 	</script>
 </body>
 </html>

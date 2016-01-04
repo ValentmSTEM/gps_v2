@@ -61,16 +61,56 @@ def inputHandler(response):
     
     insertPositions(uuid, latitude, longitude)
 
+def insertAssignments(response):
+    uuid = response.get_field("uuid")
+    pas = response.get_field("pass")
+    name = response.get_field("name")
+    typ = response.get_field("typ")
 
+    cur = con.cursor()
+    cur.execute("""
+INSERT OR REPLACE INTO Assignments (UUID, IsVehicle, Name) 
+  VALUES (  ?, 
+            ?,
+            ?
+          );
+    """, (uuid, typ == "1", name,))
+    con.commit()
+    cur.close()
+    response.redirect("/assignments")
 
 def showAllDebugPage(response):
     data = getLocations(100)
     response.write(TemplateAPI.render('display.html', response, {'data': data}))
     print(data)
 
+def getAssignments():
+    cur = con.cursor()
+    cur.execute("SELECT UUID, IsVehicle, Name FROM Assignments ORDER BY UUID asc")
+    data = cur.fetchall()
+    return data
+
+
+def getAssignmentsPageHandler(response):
+    assignments = getAssignments()
+    response.write(TemplateAPI.render('Manage_Assignments.html', response, {'assignments': assignments}))
+
+
 def getLatestHandler(response):
     data = getLatestForEach()
-    response.write(json.dumps(data))
+    output = []
+    for uuidData in data:
+        o = list(uuidData)
+        cur = con.cursor()
+        cur.execute("SELECT Name, IsVehicle FROM Assignments WHERE UUID = ?", (str(uuidData[0]),))
+	res = cur.fetchone()
+        if res == None:
+            res = ('No Assignment', False)
+        cur.close()
+        o.append(res[0])
+        o.append(res[1])
+        output.append(o)
+    response.write(json.dumps(output))
     
 #--------------------------------------User_Data--------------------------------------    
     
@@ -115,6 +155,7 @@ cur.execute("CREATE TABLE IF NOT EXISTS Positions (UUID int, Lat float, Lon floa
 cur.execute("CREATE INDEX IF NOT EXISTS PositionTime ON Positions (Time)")
 cur.execute("CREATE INDEX IF NOT EXISTS PositionUUID ON Positions (UUID)")
 cur.execute("CREATE INDEX IF NOT EXISTS PositionCombo ON Positions (Time, UUID)")
+cur.execute("CREATE TABLE IF NOT EXISTS Assignments (UUID INTEGER PRIMARY KEY, IsVehicle BOOLEAN, Name varchar(255))")
 
 con.commit()
 cur.close()
@@ -135,6 +176,7 @@ def insertPositions(UUID, Lat, Lon):
     cur.execute("INSERT INTO Positions (UUID, Lat, Lon, Time) VALUES (?, ?, ?, ?)", (UUID, Lat, Lon, Time))
     con.commit()
     cur.close()
+
 
 
 def queryPositions():
@@ -178,4 +220,6 @@ server.register("/location/push", inputHandler)
 server.register("/location/get/all", getLatestHandler)
 server.register("/Track_Database", displayAllPage)
 server.register("/Track_Map",displayMapPage)
+server.register("/assignments", getAssignmentsPageHandler)
+server.register("/ass/new", insertAssignments)
 server.run(dummy)
