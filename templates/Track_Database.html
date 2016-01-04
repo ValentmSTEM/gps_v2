@@ -30,6 +30,7 @@
 </div>
 <br><br><br>
 <div id="mainContainer" align="center">
+        <span id="updateStatus">Updating Soon</span>
 	<table style="color: white;width: 100%;">
 		<thead>
 			<tr style="font-weight: bold;">
@@ -45,7 +46,7 @@
 </div>
 	<script type="text/javascript">
 		setInterval(function(){
-
+			$("#updateStatus").html("Updating NOW");
 			$.ajax({
 			  url: "/location/get/all",
 			  context: document.body
@@ -67,9 +68,10 @@
 			  }
 
 			  $("#infotable").html(tablehtml);
+			  $("#updateStatus").html("Updating Soon");
 			});
 
-		}, 1000);
+		}, 15000);
 		
 	</script>
 </body>

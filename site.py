@@ -113,6 +113,9 @@ con = lite.connect('positions.db')
 cur = con.cursor()
 cur.execute("CREATE TABLE IF NOT EXISTS Positions (UUID int, Lat float, Lon float, Time timestamp)")
 cur.execute("CREATE INDEX IF NOT EXISTS PositionTime ON Positions (Time)")
+cur.execute("CREATE INDEX IF NOT EXISTS PositionUUID ON Positions (UUID)")
+cur.execute("CREATE INDEX IF NOT EXISTS PositionCombo ON Positions (Time, UUID)")
+
 con.commit()
 cur.close()
 
@@ -129,7 +132,6 @@ def insertPositions(UUID, Lat, Lon):
     Time = int(time.time())
     
     cur = con.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS Positions (UUID int, Lat float, Lon float, Time timestamp)")
     cur.execute("INSERT INTO Positions (UUID, Lat, Lon, Time) VALUES (?, ?, ?, ?)", (UUID, Lat, Lon, Time))
     con.commit()
     cur.close()
@@ -150,7 +152,7 @@ def getLocations(limit):
 
 def getLatestForEach():
     cur = con.cursor()
-    cur.execute("SELECT UUID, Lat, Lon, Time FROM Positions a WHERE Time = (SELECT MAX(Time) FROM Positions WHERE UUID = a.UUID) ORDER BY UUID asc")
+    cur.execute("SELECT UUID, Lat, Lon, MAX(TIME) FROM Positions GROUP BY UUID")
     data = cur.fetchall()
     cur.close()
     return data
