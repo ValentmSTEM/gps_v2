@@ -6,6 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="/static/js/jquery-1.11.3.min.js"></script>
                 <script src="http://maps.googleapis.com/maps/api/js"></script>
+
+<style>
+.customBox {
+      background: yellow;
+      border: 1px solid black;
+      position: absolute;
+    }
+</style>
+
 </head>
     <body background="/static/new/images/patterBG.jpg">
 
@@ -43,7 +52,7 @@
 		var markers = [];
 		var map = undefined;
 
-		setInterval(function(){
+		var up = function(){
 
 			$.ajax({
 			  url: "/location/get/all",
@@ -63,14 +72,21 @@
 				  var marker = new google.maps.Marker({
 				    position: myLatLng,
 				    map: map,
-				    title: data[i][0]
+				    title: String(data[i][0])
 				  });
 
+				  if (data[i][5] == '1') {//vehicle
+				    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+				  } else {
+				    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+				  }
 				  markers[markers.length] = marker;
+				  markers[markers.length] = new TxtOverlay(new google.maps.LatLng(myLatLng.lat, myLatLng.lng), data[i][4], "customBox", map);
 			  }
 			});
 
-		}, 1000);
+		};
+
 		
 
 		function initialize() {
@@ -83,7 +99,110 @@
 		    mapTypeId:google.maps.MapTypeId.ROADMAP
 		  };
 		  map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+		  setInterval("up()", 15000);
+		  up();
 		}
+
+//adapded from this example http://code.google.com/apis/maps/documentation/javascript/overlays.html#CustomOverlays
+     //text overlays
+    function TxtOverlay(pos, txt, cls, map) {
+
+      // Now initialize all properties.
+      this.pos = pos;
+      this.txt_ = txt;
+      this.cls_ = cls;
+      this.map_ = map;
+
+      // We define a property to hold the image's
+      // div. We'll actually create this div
+      // upon receipt of the add() method so we'll
+      // leave it null for now.
+      this.div_ = null;
+
+      // Explicitly call setMap() on this overlay
+      this.setMap(map);
+    }
+
+    TxtOverlay.prototype = new google.maps.OverlayView();
+
+
+
+    TxtOverlay.prototype.onAdd = function() {
+
+      // Note: an overlay's receipt of onAdd() indicates that
+      // the map's panes are now available for attaching
+      // the overlay to the map via the DOM.
+
+      // Create the DIV and set some basic attributes.
+      var div = document.createElement('DIV');
+      div.className = this.cls_;
+
+      div.innerHTML = this.txt_;
+
+      // Set the overlay's div_ property to this DIV
+      this.div_ = div;
+      var overlayProjection = this.getProjection();
+      var position = overlayProjection.fromLatLngToDivPixel(this.pos);
+      div.style.left = position.x + 'px';
+      div.style.top = position.y + 'px';
+      // We add an overlay to a map via one of the map's panes.
+
+      var panes = this.getPanes();
+      panes.floatPane.appendChild(div);
+    }
+    TxtOverlay.prototype.draw = function() {
+
+
+        var overlayProjection = this.getProjection();
+
+        // Retrieve the southwest and northeast coordinates of this overlay
+        // in latlngs and convert them to pixels coordinates.
+        // We'll use these coordinates to resize the DIV.
+        var position = overlayProjection.fromLatLngToDivPixel(this.pos);
+
+
+        var div = this.div_;
+        div.style.left = position.x + 'px';
+        div.style.top = position.y + 'px';
+
+
+
+      }
+      //Optional: helper methods for removing and toggling the text overlay.  
+    TxtOverlay.prototype.onRemove = function() {
+      this.div_.parentNode.removeChild(this.div_);
+      this.div_ = null;
+    }
+    TxtOverlay.prototype.hide = function() {
+      if (this.div_) {
+        this.div_.style.visibility = "hidden";
+      }
+    }
+
+    TxtOverlay.prototype.show = function() {
+      if (this.div_) {
+        this.div_.style.visibility = "visible";
+      }
+    }
+
+    TxtOverlay.prototype.toggle = function() {
+      if (this.div_) {
+        if (this.div_.style.visibility == "hidden") {
+          this.show();
+        } else {
+          this.hide();
+        }
+      }
+    }
+
+    TxtOverlay.prototype.toggleDOM = function() {
+      if (this.getMap()) {
+        this.setMap(null);
+      } else {
+        this.setMap(this.map_);
+      }
+    }
+
 		google.maps.event.addDomListener(window, 'load', initialize);
 	</script>
 </html>
