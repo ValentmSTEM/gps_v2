@@ -67,7 +67,7 @@ char * floatToString(char * outstr, float value, int places, int minwidth, bool 
         d *= -1.0;
     // divide by ten for each decimal place
     for (i = 0; i < places; i++)
-        d/= 10.0;    // if this was 100.0 ??
+        d/= 10.0;
     // this small addition, combined with truncation will round our values properly 
     tempfloat +=  d;
 
@@ -189,8 +189,8 @@ void loop() {
   boolean didGetLock = fona.getGPS(&lat, &lon, &speed_kph, &bearing, &altitude);
   if (didGetLock)
   {
-    Serial.println(lat);
-    Serial.println(lon);
+    Serial.println(lat, 4); // the 4 gives us lat to four decimal places
+    Serial.println(lon, 4);  // the 4 gives us lon to four decimal places
     uint16_t len;
     uint16_t statuscode;
     String url = "http://cmaps.knox.nsw.edu.au/location/push?uuid=172&latitude=";  //IMPORTANT "uuid=" defines the unique ID. LABEL THE ARDUINO UNIT with the number after upload.
@@ -214,9 +214,9 @@ void loop() {
     lcdtopstring += lat;
     String lcdbotstring = "Long: ";
     lcdbotstring += lon; 
-    lcd.print(lcdtopstring); //display lat on top row
+    lcd.print(lcdtopstring, 4); //display lat on top row & 4 gives to 4 decimal places
     lcd.setCursor(0, 1); // Set cursor to bottom row
-    lcd.print(lcdbotstring); //display long on bot row
+    lcd.print(lcdbotstring, 4); //display long on bot row & 4 gives to 4 decimal places
     lcd.setCursor(0, 0); // Set cursor to top row again
     //Next set cursor to second line display time
     
