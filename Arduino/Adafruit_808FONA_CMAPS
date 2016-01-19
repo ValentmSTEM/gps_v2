@@ -67,7 +67,7 @@ char * floatToString(char * outstr, float value, int places, int minwidth, bool 
         d *= -1.0;
     // divide by ten for each decimal place
     for (i = 0; i < places; i++)
-        d/= 10.0;    // if this was 100.0 ??
+        d/= 10.0;    // if this was 1000.0 ??
     // this small addition, combined with truncation will round our values properly 
     tempfloat +=  d;
 
