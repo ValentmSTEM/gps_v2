@@ -51,7 +51,7 @@ LiquidCrystal_I2C  lcd(I2C_ADDR,En_pin,Rw_pin,Rs_pin,D4_pin,D5_pin,D6_pin,D7_pin
 char * floatToString(char * outstr, float value, int places, int minwidth, bool rightjustify=false) {
     // this is used to write a float value to string, outstr.  oustr is also the return value.
     int digit;
-    float tens = 0.1;
+    float tens = 0.1; 
     int tenscount = 0;
     int i;
     float tempfloat = value;
@@ -67,7 +67,7 @@ char * floatToString(char * outstr, float value, int places, int minwidth, bool 
         d *= -1.0;
     // divide by ten for each decimal place
     for (i = 0; i < places; i++)
-        d/= 10.0;    
+        d/= 10.0;    // if this was 100.0 ??
     // this small addition, combined with truncation will round our values properly 
     tempfloat +=  d;
 
@@ -86,7 +86,7 @@ char * floatToString(char * outstr, float value, int places, int minwidth, bool 
 
     if (value < 0)
         charcount += 1;
-    charcount += 1 + places;
+    charcount += 1 + places; 
 
     minwidth += 1; // both count the null final character
     if (minwidth > charcount){        
