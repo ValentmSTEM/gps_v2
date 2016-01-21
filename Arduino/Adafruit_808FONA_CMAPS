@@ -210,13 +210,15 @@ void loop() {
     
       ////////////  LCD I2C DISPLAY /////////////////////////
       
-    String lcdtopstring = "Lat: ";
-    lcdtopstring += lat;
-    String lcdbotstring = "Long: ";
-    lcdbotstring += lon; 
-    lcd.print(lcdtopstring, 4); //display lat on top row & 4 gives to 4 decimal places
+    //String lcdtopstring = "Lat: ";
+    //lcdtopstring += lat;
+    //String lcdbotstring = "Long: ";
+    //lcdbotstring += lon; 
+    //lcd.print(lcdtopstring); 
+    lcd.print("Lat:"); lcd.print(lat,5); // displays lat to 5 decimal places
     lcd.setCursor(0, 1); // Set cursor to bottom row
-    lcd.print(lcdbotstring, 4); //display long on bot row & 4 gives to 4 decimal places
+    lcd.print("Lon:"); lcd.print(lon,5); // displays lon to 5 decimal places
+    //lcd.print(lcdbotstring);
     lcd.setCursor(0, 0); // Set cursor to top row again
     //Next set cursor to second line display time
     
