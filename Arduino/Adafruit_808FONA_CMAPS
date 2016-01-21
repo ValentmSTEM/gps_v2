@@ -222,7 +222,7 @@ void loop() {
     lcd.setCursor(0, 0); // Set cursor to top row again
     //Next set cursor to second line display time
     
-    delay(10000); // the aim here is to have a 5 minute delay between sends once lock is achieved
+    delay(30000); // the aim here is to have a 5 minute delay (30000) between sends once lock is achieved
     
     lcd.clear(); //clears LCD screen
      ////////////  LCD I2C DISPLAY /////////////////////////
