@@ -1,16 +1,17 @@
 @font-face {
   font-family: 'universltstd';
-  src: url(font/universltstd/universltstd-cn.otf); 
+  src: url(font/universltstd/universltstd-cn.otf);
 }
 @font-face {
     font-family: 'universltstd-ultracn';
-    src: url(font/universltstd/universltstd-ultracn.otf); 
+    src: url(font/universltstd/universltstd-ultracn.otf);
 }
+
 .UniversLTStd {
   font-family: 'universltstd';
   font-weight: normal;
   font-style: normal;
-  font-size: 24px; 
+  font-size: 24px;
   display: inline-block;
   width: 1em;
   height: 1em;
@@ -34,7 +35,7 @@
   font-family: 'universltstd-ultracncn';
   font-weight: normal;
   font-style: normal;
-  font-size: 24px; 
+  font-size: 24px;
   display: inline-block;
   width: 1em;
   height: 1em;
@@ -55,102 +56,121 @@
   font-feature-settings: 'liga';
 }
 
-#mainContainer
-        {
-        margin:0 auto;
-        width: 70%;
-         }
-#content-section{
-    background-color: white;
-    margin-top:-18px;
-    width:1000px;
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
-ul {
-	list-style-type:none;
-	margin:0;
-	padding:0;
+
+#mainContainer {
+  margin: 0 auto;
+  width: 70%;
 }
-li {
-	display:inline-block;
-	float: left;
-	margin-right: 1px;
-}
-li a {
-	display:block;
-	min-width:249px;
-	height: 50px;
-	text-align: center;
-	line-height: 50px;
-    font-size: 30px; 
-	font-family: "universltstd-ultracn";
-	color: #fff;
-	background: #2f3036;
-	text-decoration: none;
-}
-li:hover a {
-	background: #003399;
-}
-li:hover ul a {
-	background: #f3f3f3;
-	color: #2f3036;
-	height: 40px;
-	line-height: 40px;
-}
-li:hover ul a:hover {
-	background: #003399;
-	color: #fff;
-}
-li ul {
-	display: none;
-}
-li ul li {
-	display: block;
-	float: none;
-}
-li ul li a {
-	width: auto;
-	min-width: 249px;
-	padding: 0 20px;
-}
-ul li a:hover + .hidden, .hidden:hover {
-	display: block;
-}
-.show-menu {
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	text-decoration: none;
-	color: #fff;
-	background: #19c589;
-	text-align: center;
-	padding: 10px 0;
-	display: none;
-}
-input[type=checkbox]{
-    display: none;
-}
-input[type=checkbox]:checked ~ #menu{
-    display: block;
-}
-@media screen and (max-width : 760px){
-	ul {
-		position: static;
-		display: none;
-	}
-	li {
-		margin-bottom: 1px;
-	}
-	ul li, li a {
-		width: 100%;
-	}
-	.show-menu {
-		display:block;
-	}
+
+#content-section {
+  background-color: white;
+  margin-top: -18px;
+  width: 1000px;
 }
 
 #menu {
-	display: inline-block;
-        margin: 0;
-        padding: 0;
-        /* For IE, the outcast */
-        zoom:1;
-        *display: inline;
+  width: 100%;
+  max-width: 1000px;
+  position: relative;
+  margin: 0 auto;
+}
+
+#menu ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+}
+
+#menu li {
+  float: left;
+  width: 25%;
+  border-right: 1px solid transparent;
+}
+
+#menu li a {
+  display: block;
+  height: 50px;
+  line-height: 50px;
+  color: #fff;
+  background: #2f3036;
+  font-size: 30px;
+  font-family: "universltstd-ultracn";
+  text-align: center;
+  text-decoration: none;
+}
+
+#menu li a:hover {
+  background: #003399;
+}
+
+#menu li ul {
+  display: none;
+  position: absolute;
+}
+
+#menu li ul li {
+  display: block;
+  float: none;
+  min-width: 250px;
+}
+
+#menu li ul a {
+  background: #f3f3f3;
+  color: #2f3036;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 10px;
+}
+
+#menu li ul a:hover {
+  color: #fff;
+}
+
+#menu li:hover a + .hidden, .hidden:hover {
+  display: block;
+}
+
+.show-menu {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-decoration: none;
+  color: #fff;
+  background: #19c589;
+  text-align: center;
+  padding: 10px 0;
+  display: none;
+}
+
+/* Checkbox */
+#show-menu {
+    display: none;
+}
+
+@media screen and (max-width : 760px){
+  #menu ul {
+    display: none;
+  }
+
+  #menu li {
+    border-bottom: 1px solid transparent;
+    border-right: 0px;
+    width: 100%;
+  }
+
+  #menu li ul {
+    position: static;
+  }
+
+  .show-menu {
+    display: block;
+  }
+
+  #show-menu:checked ~ ul{
+    display: block;
+  }
 }
