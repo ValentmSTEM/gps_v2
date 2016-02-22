@@ -114,32 +114,32 @@ def getLatestHandler(response):
     
 #--------------------------------------User_Data--------------------------------------    
     
-#users = [line for line in open("users.txt")]  
-#user_dict = {}
-#for user in users:
-#    UUID = user.split(":")[0]
-#    Username = user.split(":")[1].split(",")[0]
-#    Password = user.split(":")[1].split(",")[1].strip()
-#    user_dict[UUID] = Username + "," + Password
+users = [line for line in open("users.txt")]  
+user_dict = {}
+for user in users:
+    UUID = user.split(":")[0]
+    Username = user.split(":")[1].split(",")[0]
+    Password = user.split(":")[1].split(",")[1].strip()
+    user_dict[UUID] = Username + "," + Password
     
-#def get_user(name, password):
-#    result = None
-#    for user in user_dict.keys():
-#        u_name = user_dict[user].split(",")[0]
-#        u_password = user_dict[user].split(",")[1]
-#        if str(name + " " + password) == str(u_name + " " + u_password):
-#            result = True
-#            break
-#    if result == None:
-#        return False
-#    else:
-#        return True
-#
-#def make_user(input_name, input_password):
-#    UUID = int(len(user_dict.keys())) + 1
-#    user_dict[UUID] = input_name + "," + input_password
-#    with open("users.txt", "a") as file:
-#        file.write("\n" + str(UUID) + ":" + input_name + "," + input_password)
+def get_user(name, password):
+    result = None
+    for user in user_dict.keys():
+        u_name = user_dict[user].split(",")[0]
+        u_password = user_dict[user].split(",")[1]
+        if str(name + " " + password) == str(u_name + " " + u_password):
+            result = True
+            break
+    if result == None:
+        return False
+    else:
+        return True
+
+def make_user(input_name, input_password):
+    UUID = int(len(user_dict.keys())) + 1
+    user_dict[UUID] = input_name + "," + input_password
+    with open("users.txt", "a") as file:
+        file.write("\n" + str(UUID) + ":" + input_name + "," + input_password)
 #-------------------------------------------------------------------------------------    
 
 
@@ -211,7 +211,7 @@ server.register("/", indexPage)
 server.register("/about", aboutPage)
 server.register("/random", randPage)
 server.register("/text", textPage)
-#server.register("/login", loginPage)
+server.register("/login", loginPage)
 server.register("/Page3", Page3)
 server.register("/signup", signupPage)
 server.register("/input", inputPage)
@@ -223,7 +223,3 @@ server.register("/Track_Map",displayMapPage)
 server.register("/assignments", getAssignmentsPageHandler)
 server.register("/ass/new", insertAssignments)
 server.run(dummy)
-
-
-
-#server authentication
