@@ -64,13 +64,13 @@
 
 #mainContainer {
   margin: 0 auto;
-  width: 70%;
+  width: 80%;
 }
 
 #content-section {
   background-color: white;
   margin-top: -18px;
-  width: 1000px;
+  width: 80%;
 }
 
 #menu {
