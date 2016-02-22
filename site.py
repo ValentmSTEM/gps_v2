@@ -227,31 +227,41 @@ server.run(dummy)
 
 
 #server authentication
-
-class BaseHandler(tornado.web.RequestHandler):
-    def get_current_user(self):
-        return self.get_secure_cookie("user")
-
+class Application(tornado.web.Application):
+    def __init__(self):
+        handlers = [
+            (r"/", MainHandler),
+            (r"/auth/login/", AuthLoginHandler),
+            (r"/auth/logout/", AuthLogoutHandler),
+        ]
+        settings = {
+            "template_path":Settings.TEMPLATE_PATH,
+            "static_path":Settings.STATIC_PATH,
+            "debug":Settings.DEBUG,
+            "cookie_secret": Settings.COOKIE_SECRET,
+            "login_url": "/auth/login/"
+        }
+        tornado.web.Application.__init__(self, handlers, **settings)
+        
+        
 class MainHandler(BaseHandler):
+    @tornado.web.authenticated
     def get(self):
-        if not self.current_user:
-            self.redirect("/login")
-            return
-        name = tornado.escape.xhtml_escape(self.current_user)
-        self.write("Hello, " + name)
+        username = tornado.escape.xhtml_escape(self.current_user)
+        self.render("/", username = username)
+        
 
-class LoginHandler(BaseHandler):
+class AuthLoginHandler(BaseHandler):
     def get(self):
-        self.write('<html><body><form action="/login" method="post">'
-                   'Name: <input type="text" name="name">'
-                   '<input type="submit" value="Sign in">'
-                   '</form></body></html>')
+        try:
+            errormessage = self.get_argument("error")
+        except:
+            errormessage = ""
+        self.render("login2.html", errormessage = errormessage)
 
-    def post(self):
-        self.set_secure_cookie("user", self.get_argument("name"))
-        self.redirect("/")
+    ...
 
-application = tornado.web.Application([
-    (r"/", MainHandler),
-    (r"/login", LoginHandler),
-], cookie_secret="123456789")
+class AuthLogoutHandler(BaseHandler):
+    def get(self):
+        self.clear_cookie("user")
+        self.redirect(self.get_argument("next", "/"))
