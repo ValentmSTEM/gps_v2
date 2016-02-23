@@ -65,7 +65,7 @@ tr:nth-child(even){background-color: #2f3036}
 
                           var tablehtml = '';
                           for (var i = 0; i < data.length; i++) {
-				var formattedDate = new Date ();
+				var formattedDate = new Date (year, month, day, hours, minutes, seconds, milliseconds, data[i][3] * 1000);
 
 				tablehtml += '<tr>';
 				tablehtml += '<td>' + data[i][0] + '</td>';
