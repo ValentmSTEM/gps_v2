@@ -10,23 +10,11 @@ def dummy():
 def indexPage(response):
     response.write(TemplateAPI.render('Main_Page.html', response, {}))
 
-def aboutPage(response):
-    #response.write("HELLO WORLD")
-    array = [str(randint(0,10)) for x in range(0,10)]
-    name = response.get_field("input_name")
-    response.write(TemplateAPI.render('about.html', response, {'randoms': array, 'lol': 'kek', 'name': name}))
-
 def randPage(response):
     response.write(str(rangen()))
 
 def rangen():
     return randint(0, 10)
-
-def textPage(response):
-    response.write(TemplateAPI.render('game.py', response, {}))
-
-def Page3(response):
-    response.write(TemplateAPI.render('Page3.html', response, {}))
     
 def loginPage(response):
     name = response.get_field("name")
@@ -52,6 +40,9 @@ def displayAllPage(response):
 
 def displayMapPage(response):    
     response.write(TemplateAPI.render('Track_Map.html', response, {}))
+    
+def displayaboutPage(response):    
+    response.write(TemplateAPI.render('About.html', response, {}))
 
 
 def inputHandler(response):
@@ -202,7 +193,7 @@ def getLatestForEach():
 
     
 
-#-------------------------------------------------------------------------------------     
+#------------------------------Page Links---------------------------------------------
     
     
     
@@ -210,9 +201,7 @@ server = Server('0.0.0.0', 80)
 server.register("/", indexPage)
 server.register("/about", aboutPage)
 server.register("/random", randPage)
-server.register("/text", textPage)
 server.register("/login", loginPage)
-server.register("/Page3", Page3)
 server.register("/signup", signupPage)
 server.register("/input", inputPage)
 server.register("/all", showAllDebugPage)

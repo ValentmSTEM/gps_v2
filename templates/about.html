@@ -1,17 +1,41 @@
-<html>
-    <body>
-        <h1>hello {! name !}</h1>
-        
-        {% for a in randoms %}
-            <br>{! a !}</br>
-    {% end for %}
-    
-        <form method="post" action="/about">
-            First name:<br>
-            <input type="text" name="input_name">
-            <br>
-            <input type="submit" value="Submit">
-        </form>
-    
-    </body>
+<!doctype html>
+
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="/static/new/cmaps_css.css">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/png" href="/static/new/images/favicon.ico">
+</head>
+    <body background="/static/new/images/patterBG.jpg">
+
+<div  align="center">
+   <header>
+    <img src="/static/new/images/headerv5.png" width="80%" >	<label for="show-menu" class="show-menu">Show Menu</label>
+   </header>
+</div>
+<div  align="center" id="menu">
+	<input type="checkbox" id="show-menu" role="button">
+    	<ul>
+		<li><a href="/">Home</a></li>
+		<li>
+			<a href="#">Tracking</a>
+			<ul class="hidden">
+				<li><a href="/Track_Map">View Map</a></li>
+				<li><a href="/Track_Database">View Database</a></li>
+				<li><a href="/assignments">Assignments</a></li>
+			</ul>
+		</li>
+		<li><a href="https://sites.google.com/a/knox.nsw.edu.au/knox_stem_2015/">Wiki</a></li>
+		<li><a href="/about">About</a></li>
+	</ul>
+</div>
+<br><br><br>
+<div align="center">
+	<section id="content-section">
+	        <div class="body" align="centre">
+<iframe src="https://docs.google.com/presentation/d/19XYNIJ7c24iZXQCwQXr5vLtWizTTlPOC_oLeI9thfV8/embed?start=false&loop=true&delayms=3000" frameborder="0" width="1440" height="839" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+		 </div>
+	</section>
+</div>
+</body>
 </html>
