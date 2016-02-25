@@ -135,7 +135,7 @@ def make_user(input_name, input_password):
 
 
 
-#--------------------------------Database Interaction#-------------------------------- 
+#--------------------------------Database Interaction--------------------------------- 
 import sqlite3 as lite
 import sys
 import time
