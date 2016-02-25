@@ -41,7 +41,7 @@ def displayAllPage(response):
 def displayMapPage(response):    
     response.write(TemplateAPI.render('Track_Map.html', response, {}))
     
-def displayaboutPage(response):    
+def aboutPage(response):    
     response.write(TemplateAPI.render('About.html', response, {}))
 
 
