@@ -167,9 +167,9 @@ void setup() {
       Serial.println(stat);
   }
   
-  //fona.setGPRSNetworkSettings(F("mdata.net.au")); //use this for Aldi SIM card - added by MV to improve lock success
   Serial.println(F("Setting APN"));
-  fona.setGPRSNetworkSettings(F("telstra.internet")); //use this for Telstra SIM card - added by MV to improve lock success
+  fona.setGPRSNetworkSettings(F("mdata.net.au")); //use this for Aldi SIM card - added by MV to improve lock success
+  // fona.setGPRSNetworkSettings(F("telstra.internet")); //use this for Telstra SIM card - added by MV to improve lock success
   fona.enableGPS(true);
   delay(2000);
   Serial.println(F("Setting GPRS status"));
