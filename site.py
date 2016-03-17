@@ -85,7 +85,7 @@ def getAssignmentsPageHandler(response):
     if name == None or password == None:
         is_Valid = False
     else:
-        is_Valid = get_user(name, password)
+        is_Valid = get_high_user(name, password)
     response.write(TemplateAPI.render('Manage_Assignments.html', response, {'assignments': assignments, 'name': name, 'password': password, 'is_Valid':is_Valid}))
 
 
@@ -133,7 +133,30 @@ def make_user(input_name, input_password):
     user_dict[UUID] = input_name + "," + input_password
     with open("users.txt", "a") as file:
         file.write("\n" + str(UUID) + ":" + input_name + "," + input_password)
+        
+        
+high_users = [line for line in open("high_users.txt")]  
+high_user_dict = {}
+for user in high_users:
+    UUID = user.split(":")[0]
+    Username = user.split(":")[1].split(",")[0]
+    Password = user.split(":")[1].split(",")[1].strip()
+    high_user_dict[UUID] = Username + "," + Password
+    
+def get_high_user(name, password):
+    result = None
+    for user in high_user_dict.keys():
+        u_name = high_user_dict[user].split(",")[0]
+        u_password = high_user_dict[user].split(",")[1]
+        if str(name + " " + password) == str(u_name + " " + u_password):
+            result = True
+            break
+    if result == None:
+        return False
+    else:
+        return True
 #-------------------------------------------------------------------------------------    
+
 
 
 

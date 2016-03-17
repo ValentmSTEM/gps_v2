@@ -120,13 +120,12 @@
 		
 
 		function initialize() {
-		  console.log("HAI");
 		  // Singleton: -32.72771, 151.13181
 		  // Knox Grammar: -33.72425,151.11586
 		  var mapProp = {
 		    center:new google.maps.LatLng(-32.72771, 151.13181),
-		    zoom:15,
-		    mapTypeId:google.maps.MapTypeId.ROADMAP
+		    zoom:11,
+		    mapTypeId:google.maps.MapTypeId.HYBRID
 		  };
 		  map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
 		  setInterval("up()", 15000);
