@@ -16,30 +16,26 @@ def randPage(response):
 def rangen():
     return randint(0, 10)
     
-def loginPage(response):
+def inputPage(response):    
+    response.write(TemplateAPI.render('input.html', response, {}))
+
+def displayAllPage(response):
     name = response.get_field("name")
     password = response.get_field("password")
     if name == None or password == None:
         is_Valid = False
     else:
         is_Valid = get_user(name, password)
-    response.write(TemplateAPI.render('login.html', response, {'name': name, 'password': password, 'is_Valid':is_Valid}))
+    response.write(TemplateAPI.render('Track_Database.html', response, {'name': name, 'password': password, 'is_Valid':is_Valid}))
 
-def signupPage(response):
+def displayMapPage(response):
     name = response.get_field("name")
     password = response.get_field("password")
-    if name != None and password != None:
-        make_user(name, password)
-    response.write(TemplateAPI.render('signup.html', response, {'name': name, 'password': password}))
-    
-def inputPage(response):    
-    response.write(TemplateAPI.render('input.html', response, {}))
-
-def displayAllPage(response):    
-    response.write(TemplateAPI.render('Track_Database.html', response, {}))
-
-def displayMapPage(response):    
-    response.write(TemplateAPI.render('Track_Map.html', response, {}))
+    if name == None or password == None:
+        is_Valid = False
+    else:
+        is_Valid = get_user(name, password)
+    response.write(TemplateAPI.render('Track_Map.html', response, {'name': name, 'password': password, 'is_Valid':is_Valid}))
     
 def aboutPage(response):    
     response.write(TemplateAPI.render('About.html', response, {}))
@@ -193,7 +189,7 @@ def getLatestForEach():
 
     
 
-#------------------------------Page Links and locations-------------------------------
+#------------------------------Page Links---------------------------------------------
     
     
     
@@ -201,14 +197,12 @@ server = Server('0.0.0.0', 80)
 server.register("/", indexPage)
 server.register("/about", aboutPage)
 server.register("/random", randPage)
-server.register("/login", loginPage)
-server.register("/signup", signupPage)
 server.register("/input", inputPage)
 server.register("/all", showAllDebugPage)
 server.register("/location/push", inputHandler)
 server.register("/location/get/all", getLatestHandler)
-server.register("/Track_Database", displayAllPage)
-server.register("/Track_Map",displayMapPage)
+server.register("/track_database", displayAllPage)
+server.register("/track_map",displayMapPage)
 server.register("/assignments", getAssignmentsPageHandler)
 server.register("/ass/new", insertAssignments)
 server.run(dummy)

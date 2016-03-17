@@ -24,8 +24,8 @@ tr:nth-child(even){background-color: #2f3036}
 		<li>
 			<a href="#">Tracking</a>
 			<ul class="hidden">
-				<li><a href="/Track_Map">View Map</a></li>
-				<li><a href="/Track_Database">View Database</a></li>
+				<li><a href="/track_map">View Map</a></li>
+                <li><a href="/track_database">View Database</a></li>
 				<li><a href="/assignments">Assignments</a></li>
 			</ul>
 		</li>
@@ -33,24 +33,48 @@ tr:nth-child(even){background-color: #2f3036}
 		<li><a href="/about">About</a></li>
 	</ul>
 </div>
-<br><br><br>
-<div id="mainContainer" style="text-align: center">
-        <span id="updateStatus" style="text-align: left; color: white;">Updating Soon</span>
-	<table style="color: white;width: 100%;">
-		<thead>
-			<tr style="font-weight: bold;">
-				<td>UUID</td>
-				<td>Assigned To</td>
-				<td>Assignment Type</td>
-				<td>Latitude</td>
-				<td>Longitude</td>
-				<td>Time (AEST)</td>
-			</tr>
-		</thead>
-		<tbody id="infotable">
-		</tbody>
-	</table>
-</div>
+
+    
+    <div style="text-align:center;">   
+        <h1 style="color:white;">Login</h1>
+        <form method="post" action="/track_database" style="color:white;">
+            Username:  
+            <input type="text" name="name" style="background-color:white; color:black;">
+            
+            Password:
+            <input type="text" name="password" style="background-color:white; color:black;">
+            
+            <input type="submit" value="Submit" style="color:black;">
+        </form>
+        
+        
+        {% if is_Valid == True %}
+        <h1 style="color:white;">Login Successful</h1>
+        <div id="mainContainer" style="text-align: center">
+                <span id="updateStatus" style="text-align: left; color: white;">Updating Soon</span>
+            <table style="color: white;width: 100%;">
+                <thead>
+                    <tr style="font-weight: bold;">
+                        <td>UUID</td>
+                        <td>Assigned To</td>
+                        <td>Assignment Type</td>
+                        <td>Latitude</td>
+                        <td>Longitude</td>
+                        <td>Time (AEST)</td>
+                    </tr>
+                </thead>
+                <tbody id="infotable">
+                </tbody>
+            </table>
+        </div>
+        {% end if %}
+        
+        {% if is_Valid == False %}
+        <h1 style="color:white;">Invalid Username/Password</h1>
+        {% end if %}
+    
+    
+
 	<script type="text/javascript">
 		var up = function(){
 			$("#updateStatus").html("Updating NOW");
