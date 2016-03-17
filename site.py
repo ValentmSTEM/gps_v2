@@ -80,7 +80,13 @@ def getAssignments():
 
 def getAssignmentsPageHandler(response):
     assignments = getAssignments()
-    response.write(TemplateAPI.render('Manage_Assignments.html', response, {'assignments': assignments}))
+    name = response.get_field("name")
+    password = response.get_field("password")
+    if name == None or password == None:
+        is_Valid = False
+    else:
+        is_Valid = get_user(name, password)
+    response.write(TemplateAPI.render('Manage_Assignments.html', response, {'assignments': assignments, 'name': name, 'password': password, 'is_Valid':is_Valid}))
 
 
 def getLatestHandler(response):

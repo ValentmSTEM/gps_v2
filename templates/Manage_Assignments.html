@@ -31,7 +31,24 @@
 	</ul>
 </div>
 <br><br><br>
-<div id="mainContainer" align="center" style="color: white;">
+    
+    
+    
+    <div style="text-align:center;">   
+    <h1 style="color:white;">Login</h1>
+    <form method="post" action="/assignments" style="color:white;">
+        Username:  
+        <input type="text" name="name" style="background-color:white; color:black;">
+
+        Password:
+        <input type="password" name="password" style="background-color:white; color:black;">
+
+        <input type="submit" value="Submit" style="color:black;">
+    </form>
+
+    {% if is_Valid == True %}
+    <h1 style="color:white;">Login Successful</h1>
+    <div id="mainContainer" align="center" style="color: white;">
 
 	{% for assignment in assignments %}
 		<div style="margin-bottom: 32px;">
@@ -47,13 +64,18 @@
 	<form action="/ass/new" method="GET">
 		UUID: <input type="text" name="uuid" /> <br>
 		Name: <input type="text" name="name" /> <br>
-		Password: <input type="password" name="pass" /> <br>
+		<!-- Password: <input type="password" name="pass" /> <br> -->
 		<input type="radio" name="typ" value="0">Platoon<br>
 		<input type="radio" name="typ" value="1">Vehicle<br>
 		<input type="submit" value="Create">
 	</form>
+    {% end if %}
+
+    {% if is_Valid == False %}
+    <h1 style="color:white;">Invalid Username/Password</h1>
+    {% end if %}
+
+        
 </div>
-	<script type="text/javascript">
-	</script>
 </html>
 
