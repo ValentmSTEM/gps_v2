@@ -37,16 +37,15 @@
     <h1 style="color:white;font-family:universltstd;">Login</h1>
     <form method="post" action="/assignments" style="color:white;">
         Username:  
-        <input type="text" name="name" style="background-color:white; color:black;">
+        <input type="text" name="name" style="background-color:white; color:black;font-family:universltstd;">
 
         Password:
-        <input type="password" name="password" style="background-color:white; color:black;">
+        <input type="password" name="password" style="background-color:white; color:black;font-family:universltstd;">
 
-        <input type="submit" value="Submit" style="color:black;">
+        <input type="submit" value="Submit" style="color:black;font-family:universltstd;">
     </form>
 
     {% if is_Valid == True %}
-    <h1 style="color:white;">Login Successful</h1>
     <div id="mainContainer" align="center" style="color: white;">
 
 	{% for assignment in assignments %}

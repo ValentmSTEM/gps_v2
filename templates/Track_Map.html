@@ -43,20 +43,19 @@
 
         
         <div style="text-align:center;">   
-        <h1 style="color:white;">Login</h1>
+	    <h1 style="color:white;font-family:universltstd;">Login</h1>
         <form method="post" action="/track_map" style="color:white;">
             Username:  
-            <input type="text" name="name" style="background-color:white; color:black;">
+            <input type="text" name="name" style="background-color:white; color:black;font-family:universltstd;">
             
             Password:
-            <input type="password" name="password" style="background-color:white; color:black;">
+            <input type="password" name="password" style="background-color:white; color:black;font-family:universltstd;">
             
-            <input type="submit" value="Submit" style="color:black;">
+            <input type="submit" value="Submit" style="color:black;font-family:universltstd;">
         </form>
         
         
         {% if is_Valid == True %}
-        <h1 style="color:white;">Login Successful</h1>
         <div id="mainContainer" align="centre">
             <div id="googleMap" style="width:100%;height: 650px;"></div>
         </div>
