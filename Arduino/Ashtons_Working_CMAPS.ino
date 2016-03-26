@@ -186,9 +186,8 @@ void setup() {
   
   fona.setGPRSNetworkSettings(F("mdata.net.au")); //use this for Aldi SIM card - added by MV to improve lock success
   Serial.println(F("Setting APN"));
-  //fona.setGPRSNetworkSettings(F("telstra.internet")); //use this for Telstra SIM card - added by MV to improve lock success
   fona.enableGPS(true);
-  delay(2000);
+  delay(2000); //suggest we make this 10000 as this forum said it would reduce AT+CGATT=1 errors or network registration after setting the APN
   Serial.println(F("Setting GPRS status"));
   fona.enableGPRS(true);
   delay(10000);
