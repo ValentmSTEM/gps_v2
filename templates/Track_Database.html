@@ -5,6 +5,7 @@
 <link rel="stylesheet" type="text/css" href="/static/new/cmaps_css.css">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 		<script src="/static/js/jquery-1.11.3.min.js"></script>
+		<script src="/static/js/date.min.js"></script>
 <link rel="icon" type="image/png" href="/static/new/images/favicon.ico">
 <style>
 tr:nth-child(even){background-color: #2f3036}
@@ -96,7 +97,7 @@ tr:nth-child(even){background-color: #2f3036}
 				}
 				tablehtml += '<td>' + data[i][1] + '</td>';
 				tablehtml += '<td>' + data[i][2] + '</td>';
-				tablehtml += '<td>' + formattedDate.toLocaleString() + '</td>';
+				tablehtml += '<td>' + formattedDate.format('H:i M jS, Y') + '</td>';
 				tablehtml += '</tr>';
 			  }
 

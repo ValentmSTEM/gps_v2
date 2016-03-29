@@ -93,12 +93,14 @@
 
                           for (var i = 0; i < data.length; i++) {
 
+				 console.log(JSON.stringify(data[i]));
+				 console.log((new Date().getTime() / 1000) - data[i][3]);
 				 var myLatLng = {lat: data[i][1], lng: data[i][2]};
 
 				  var marker = new google.maps.Marker({
 				    position: myLatLng,
 				    map: map,
-				    title: String(data[i][0])
+				    title: String("UID: " + data[i][0] + " - last seen " + ((new Date().getTime() / 1000) - data[i][3]) + "s ago")
 				  });
 
 				  if (data[i][5] == '1') {//vehicle
@@ -106,6 +108,11 @@
 				  } else {
 				    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
 				  }
+
+				  if (((new Date().getTime() / 1000) - data[i][3]) > 3600){
+				    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+				  }
+
 				  markers[markers.length] = marker;
 				  markers[markers.length] = new TxtOverlay(new google.maps.LatLng(myLatLng.lat, myLatLng.lng), data[i][4], "customBox", map);
 			  }
