@@ -1,0 +1,240 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="/static/new/cmaps_css.css">
+<link rel="icon" type="image/png" href="/static/new/images/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="/static/js/jquery-1.11.3.min.js"></script>
+                <script src="http://maps.googleapis.com/maps/api/js"></script>
+
+<style>
+.customBox {
+      background: yellow;
+      border: 1px solid black;
+      position: absolute;
+    }
+</style>
+
+</head>
+    <body background="/static/new/images/patterBG.jpg">        
+        
+<div  align="center">
+   <header>
+    <img src="/static/new/images/headerv5.png" width="80%" >   <label for="show-menu" class="show-menu">Show Menu</label>
+   </header>
+</div>
+<div  align="center" id="menu" style="z-index:50;">
+        <input type="checkbox" id="show-menu" role="button">
+        <ul>
+                <li><a href="/">Home</a></li>
+                <li>
+                        <a href="#">Tracking</a>
+                        <ul class="hidden">
+                              <li><a href="/track_map">View Map</a></li>
+                              <li><a href="/track_database">View Database</a></li>
+							  <li><a href="/assignments">Assignments</a></li>
+                        </ul>
+                </li>
+                <li><a href="https://sites.google.com/a/knox.nsw.edu.au/knox_stem_2015/">Wiki</a></li>
+                <li><a href="/about">About</a></li>
+        </ul>
+</div>
+
+        
+        <div style="text-align:center;">   
+	    <h1 style="color:white;font-family:universltstd;">Map:Login</h1>
+        <form method="post" action="/track_map" style="color:white;font-family:universltstd;">
+            Username:  
+            <input type="text" name="name" style="background-color:white;color:black;font-family:universltstd;">
+            
+            Password:
+            <input type="password" name="password" style="background-color:white;color:black;font-family:universltstd;">
+            
+            <input type="submit" value="Submit" style="color:black;font-family:universltstd;">
+        </form>
+        
+        
+        {% if is_Valid == True %}
+        <div id="mainContainer" align="centre">
+            <div id="googleMap" style="width:100%;height: 650px;"></div>
+        </div>
+        {% end if %}
+        
+
+        
+        
+        
+        
+        
+        
+
+	
+</div>
+
+    </body>
+	
+	<script type="text/javascript">
+		var markers = [];
+		var map = undefined;
+
+		var up = function(){
+
+			$.ajax({
+			  url: "/location/get/all",
+			  context: document.body
+			}).done(function(data) {
+			  var data = JSON.parse(data);
+
+			  for (var i = 0; i < markers.length; i++) {
+				markers[i].setMap(null);
+			  }
+			  markers = [];
+
+                          for (var i = 0; i < data.length; i++) {
+
+				 console.log(JSON.stringify(data[i]));
+				 console.log((new Date().getTime() / 1000) - data[i][3]);
+				 var myLatLng = {lat: data[i][1], lng: data[i][2]};
+
+				  var marker = new google.maps.Marker({
+				    position: myLatLng,
+				    map: map,
+				    title: String("UID: " + data[i][0] + " - last seen " + ((new Date().getTime() / 1000) - data[i][3]) + "s ago")
+				  });
+
+				  if (data[i][5] == '1') {//vehicle
+				    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/green-dot.png');
+				  } else {
+				    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+				  }
+
+				  if (((new Date().getTime() / 1000) - data[i][3]) > 3600){
+				    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+				  }
+
+				  markers[markers.length] = marker;
+				  markers[markers.length] = new TxtOverlay(new google.maps.LatLng(myLatLng.lat, myLatLng.lng), data[i][4], "customBox", map);
+			  }
+			});
+
+		};
+
+		
+
+		function initialize() {
+		  // Singleton: -32.72771, 151.13181
+		  // Knox Grammar: -33.72425,151.11586
+		  var mapProp = {
+		    center:new google.maps.LatLng(-32.72771, 151.13181),
+		    zoom:11,
+		    mapTypeId:google.maps.MapTypeId.HYBRID
+		  };
+		  map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+		  setInterval("up()", 15000);
+		  up();
+		}
+
+//adapded from this example http://code.google.com/apis/maps/documentation/javascript/overlays.html#CustomOverlays
+     //text overlays
+    function TxtOverlay(pos, txt, cls, map) {
+
+      // Now initialize all properties.
+      this.pos = pos;
+      this.txt_ = txt;
+      this.cls_ = cls;
+      this.map_ = map;
+
+      // We define a property to hold the image's
+      // div. We'll actually create this div
+      // upon receipt of the add() method so we'll
+      // leave it null for now.
+      this.div_ = null;
+
+      // Explicitly call setMap() on this overlay
+      this.setMap(map);
+    }
+
+    TxtOverlay.prototype = new google.maps.OverlayView();
+
+
+
+    TxtOverlay.prototype.onAdd = function() {
+
+      // Note: an overlay's receipt of onAdd() indicates that
+      // the map's panes are now available for attaching
+      // the overlay to the map via the DOM.
+
+      // Create the DIV and set some basic attributes.
+      var div = document.createElement('DIV');
+      div.className = this.cls_;
+
+      div.innerHTML = this.txt_;
+
+      // Set the overlay's div_ property to this DIV
+      this.div_ = div;
+      var overlayProjection = this.getProjection();
+      var position = overlayProjection.fromLatLngToDivPixel(this.pos);
+      div.style.left = position.x + 'px';
+      div.style.top = position.y + 'px';
+      // We add an overlay to a map via one of the map's panes.
+
+      var panes = this.getPanes();
+      panes.floatPane.appendChild(div);
+    }
+    TxtOverlay.prototype.draw = function() {
+
+
+        var overlayProjection = this.getProjection();
+
+        // Retrieve the southwest and northeast coordinates of this overlay
+        // in latlngs and convert them to pixels coordinates.
+        // We'll use these coordinates to resize the DIV.
+        var position = overlayProjection.fromLatLngToDivPixel(this.pos);
+
+
+        var div = this.div_;
+        div.style.left = position.x + 'px';
+        div.style.top = position.y + 'px';
+
+
+
+      }
+      //Optional: helper methods for removing and toggling the text overlay.  
+    TxtOverlay.prototype.onRemove = function() {
+      this.div_.parentNode.removeChild(this.div_);
+      this.div_ = null;
+    }
+    TxtOverlay.prototype.hide = function() {
+      if (this.div_) {
+        this.div_.style.visibility = "hidden";
+      }
+    }
+
+    TxtOverlay.prototype.show = function() {
+      if (this.div_) {
+        this.div_.style.visibility = "visible";
+      }
+    }
+
+    TxtOverlay.prototype.toggle = function() {
+      if (this.div_) {
+        if (this.div_.style.visibility == "hidden") {
+          this.show();
+        } else {
+          this.hide();
+        }
+      }
+    }
+
+    TxtOverlay.prototype.toggleDOM = function() {
+      if (this.getMap()) {
+        this.setMap(null);
+      } else {
+        this.setMap(this.map_);
+      }
+    }
+
+		google.maps.event.addDomListener(window, 'load', initialize);
+	</script>
+</html>

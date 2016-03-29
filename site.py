@@ -41,6 +41,16 @@ def aboutPage(response):
     response.write(TemplateAPI.render('About.html', response, {}))
 
 
+def display14159265Page(response):
+    name = response.get_field("name")
+    password = response.get_field("password")
+    if name == None or password == None:
+        is_Valid = False
+    else:
+        is_Valid = get_user(name, password)
+    response.write(TemplateAPI.render('14159265.html', response, {'name': name, 'password': password, 'is_Valid':is_Valid}))
+
+
 def inputHandler(response):
     uuid = response.get_field("uuid")
     latitude = response.get_field("latitude")
@@ -231,7 +241,8 @@ server.register("/all", showAllDebugPage)
 server.register("/location/push", inputHandler)
 server.register("/location/get/all", getLatestHandler)
 server.register("/track_database", displayAllPage)
-server.register("/track_map",displayMapPage)
+server.register("/track_map", displayMapPage)
 server.register("/assignments", getAssignmentsPageHandler)
 server.register("/ass/new", insertAssignments)
+server.register("/14159265", display14159265Page)
 server.run(dummy)
