@@ -136,7 +136,7 @@ void setup() {
 
   fona.enableGPS(true); // turns GPS on
   delay(2000);
-  fona.setGPRSNetworkSettings(F("mdata.net.au")); // Use for Telsra SIM
+  fona.setGPRSNetworkSettings(F("mdata.net.au")); // Use for Telsra SIM <<<< I think the APN should be telstra.internet see latest code from ATA
   // fona.setGPRSNetworkSettings(F("mdata.net.au")); //use for Aldi SIM
   fona.enableGPRS(true);
   delay(6000);
