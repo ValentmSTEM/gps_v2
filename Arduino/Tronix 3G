@@ -1,4 +1,5 @@
 #include "Adafruit_FONA.h"
+#include "Adafruit_FONA_3G.h"
 
 #define FONA_TX 2
 #define FONA_RX 3
@@ -12,10 +13,17 @@ SoftwareSerial *fonaSerial = &fonaSS;
 HardwareSerial *fonaSerial = &Serial1;
 #endif
 
+
+// IMPORTANT "DeviceUUID" defines the unique ID. LABEL THE ARDUINO UNIT with the number after upload.
+const int DeviceUUID = 101;
+
 // Use this for FONA 800 and 808s
-// Adafruit_FONA fona = Adafruit_FONA(FONA_RST);
+//Adafruit_FONA fona = Adafruit_FONA(FONA_RST);
 // Use this one for FONA 3G
 Adafruit_FONA_3G fona = Adafruit_FONA_3G(FONA_RST);
+
+//For Auto Restart
+int RestartCount;
 
 // floatToString.h
 //
@@ -30,7 +38,7 @@ Adafruit_FONA_3G fona = Adafruit_FONA_3G(FONA_RST);
 char * floatToString(char * outstr, float value, int places, int minwidth, bool rightjustify=false) {
     // this is used to write a float value to string, outstr.  oustr is also the return value.
     int digit;
-    float tens = 0.1;
+    float tens = 0.1; 
     int tenscount = 0;
     int i;
     float tempfloat = value;
@@ -46,7 +54,7 @@ char * floatToString(char * outstr, float value, int places, int minwidth, bool 
         d *= -1.0;
     // divide by ten for each decimal place
     for (i = 0; i < places; i++)
-        d/= 10.0;    
+        d/= 10.0;
     // this small addition, combined with truncation will round our values properly 
     tempfloat +=  d;
 
@@ -65,7 +73,7 @@ char * floatToString(char * outstr, float value, int places, int minwidth, bool 
 
     if (value < 0)
         charcount += 1;
-    charcount += 1 + places;
+    charcount += 1 + places; 
 
     minwidth += 1; // both count the null final character
     if (minwidth > charcount){        
@@ -117,58 +125,105 @@ char * floatToString(char * outstr, float value, int places, int minwidth, bool 
 
     outstr[c++] = '\0';
     return outstr;
+    
 }
 
 
 
 void setup() {
   while (!Serial);
+    
+   // Auto restart
 
+   RestartCount = 0;
+   
   Serial.begin(115200);
-  Serial.println(F("Setup for cmaps.knox.nsw.edu.au server with FONA 3G"));
+  Serial.println(F("CMAPS GPS sketch loaded"));
   Serial.println(F("Initializing....(May take 3 seconds)"));
 
   fonaSerial->begin(4800);
   if (! fona.begin(*fonaSerial)) {
     Serial.println(F("Couldn't find FONA"));
-    while (1);
+    while(1);
   }
-
-  fona.enableGPS(true); // turns GPS on
-  delay(2000);
-  fona.setGPRSNetworkSettings(F("mdata.net.au")); // Use for Telsra SIM <<<< I think the APN should be telstra.internet see latest code from ATA
-  // fona.setGPRSNetworkSettings(F("mdata.net.au")); //use for Aldi SIM
+  Serial.println(F("FONA is OK"));
+  
+  while (true) {
+    uint8_t stat = fona.getNetworkStatus();
+    if ((stat == 1) || (stat == 5)){
+      Serial.print(F("Network associated!: "));
+      Serial.println(stat);
+      break;
+    }
+    delay(500);
+      Serial.print(F("waiting for network: "));
+      Serial.println(stat);
+  }
+  
+  Serial.println(F("Setting APN"));
+  fona.setGPRSNetworkSettings(F("telstra.internet")); //use this for Telstra SIM card 
+  fona.enableGPS(true);
+  delay(5000); // change to 2000
+  Serial.println(F("Setting GPRS status"));
   fona.enableGPRS(true);
-  delay(6000);
+  delay(5000);  //change to 10000
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   float lat, lon, speed_kph, bearing, altitude;
-
   boolean didGetLock = fona.getGPS(&lat, &lon, &speed_kph, &bearing, &altitude);
+
   if (didGetLock)
   {
-    Serial.println(lat);
-    Serial.println(lon);
+    Serial.println(lat, 4); // the 4 gives us lat to four decimal places
+    Serial.println(lon, 4);  // the 4 gives us lon to four decimal places
     uint16_t len;
     uint16_t statuscode;
-    String url = "http://cmaps.knox.nsw.edu.au/location/push?uuid=123&latitude="; // Sends string to server page
-    char buff[120];
+      
+    //IMPORTANT "uuid=" defines the unique ID. LABEL THE ARDUINO UNIT with the number after upload.
+    String url = "http://cmaps.knox.nsw.edu.au/location/push?";
+    url += "uuid=";
+    url += String(DeviceUUID);
+    url += "&latitude=";
+
+    char buff[150];
     floatToString(buff, lat , 8, 5);
     url += buff;
     url += "&longitude=";
     floatToString(buff, lon , 8, 5);
     url += buff;
     int len2;
-    url.toCharArray(buff, 120);
+    url.toCharArray(buff, sizeof(buff));
 
-    fona.HTTP_GET_start(buff, &statuscode, &len);
-    Serial.print(url);
-    while(fona.available())fona.read();
-
+    boolean httpGetStartRes = fona.HTTP_GET_start(buff, &statuscode, &len);
     fona.HTTP_GET_end();
-    delay (1000);
+
+    if (!httpGetStartRes)
+    {
+      RestartCount +=1;
+      Serial.println("Restart Count: ");
+      Serial.println( RestartCount);
+      
+      if (RestartCount == 4) {
+        RestartCount = 0;
+        Serial.println("HTTP failure response, rebooting in 10s");
+        delay(10000);
+        asm volatile ("  jmp 0");
+      }
+   }
+   else{
+    RestartCount = 0;
+   }
+
+    // 5 minutes delay
+    unsigned long start = millis();
+    Serial.println("delay");    
+    while (millis() < ((start+300000))) {
+      delay(1000);
+     }
+    
+    Serial.println("finished delay");    
   }
   else {
     Serial.println("No lock");
