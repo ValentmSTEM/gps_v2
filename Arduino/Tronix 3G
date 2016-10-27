@@ -1,10 +1,10 @@
 #include "Adafruit_FONA.h"
 #include "Adafruit_FONA_3G.h"
-
-#define FONA_TX 2
+/////////////////////UPDATE VALENT 271016 BEGIN
+#define FONA_TX 2 //check digital pins
 #define FONA_RX 3
 #define FONA_RST 9
-
+////////////////////UPDATE END
 #ifdef __AVR__
 #include <SoftwareSerial.h>
 SoftwareSerial fonaSS = SoftwareSerial(FONA_TX, FONA_RX);
