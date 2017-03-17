@@ -32,7 +32,7 @@ LiquidCrystal_I2C  lcd(I2C_ADDR,En_pin,Rw_pin,Rs_pin,D4_pin,D5_pin,D6_pin,D7_pin
 
 
 // IMPORTANT "DeviceUUID" defines the unique ID. LABEL THE ARDUINO UNIT with the number after upload.
-const int DeviceUUID = 101;
+const int DeviceUUID = 102;
 
 // Use this for FONA 800 and 808s
 //Adafruit_FONA fona = Adafruit_FONA(FONA_RST);
@@ -212,28 +212,28 @@ void loop() {
     //String lcdbotstring = "Long: ";
     //lcdbotstring += lon; 
     //lcd.print(lcdtopstring); 
-    lcd.print("Lat:"); lcd.print(lat, 5); // displays lat to 5 decimal places
+    lcd.print("Lat:"); lcd.print(lat, 3); // displays lat to 5 decimal places
     lcd.setCursor(0, 1); // Set cursor to bottom row
-    lcd.print("Lon:"); lcd.print(lon, 5); // displays lon to 5 decimal places
+    lcd.print("Lon:"); lcd.print(lon, 3); // displays lon to 5 decimal places
     //lcd.print(lcdbotstring);
     lcd.setCursor(0, 0); // Set cursor to top row again
     //Next set cursor to second line display time
 
     
     //IMPORTANT "uuid=" defines the unique ID. LABEL THE ARDUINO UNIT with the number after upload.
-    String url = "http://cmaps.knox.nsw.edu.au/location/push?"; //reset location with "http://cmaps.knox.nsw.edu.au/location/push?&uuid=104&latitude=-32.7626&longitude=151.2227"
-    url += "uuid=";
-    url += String(DeviceUUID);
-    url += "&latitude=";
 
-    char buff[150];
+// String url = "http://cmaps.knox.nsw.edu.au/location/push?uuid=1&latitude=-99&longitude=7777";
+    String url = F("http://cmaps.knox.nsw.edu.au/location/push?");
+    url += F("uuid=");
+    url += String(DeviceUUID);
+    url += F("&latitude=");
+
+    char buff[25];
     floatToString(buff, lat , 8, 5);
     url += buff;
-    url += "&longitude=";
+    url += F("&longitude=");
     floatToString(buff, lon , 8, 5);
     url += buff;
-    int len2;
-    url.toCharArray(buff, sizeof(buff));
 
 //    boolean httpGetStartRes = fona.HTTP_GET_start(buff, &statuscode, &len);
 boolean httpGetStartRes = fona.HTTP_GET_start_From_String(&url, &statuscode, &len);
@@ -274,7 +274,7 @@ boolean httpGetStartRes = fona.HTTP_GET_start_From_String(&url, &statuscode, &le
     unsigned long start = millis();
     Serial.println("delay");    
     while (millis() < ((start+300000))) {
-      delay(1000);
+      delay(10000);
      }
     
     Serial.println("finished delay");    
