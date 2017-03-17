@@ -236,7 +236,7 @@ void loop() {
     url += buff;
 
 //    boolean httpGetStartRes = fona.HTTP_GET_start(buff, &statuscode, &len);
-boolean httpGetStartRes = fona.HTTP_GET_start_From_String(&url, &statuscode, &len);
+boolean httpGetStartRes = fona.HTTP_GET_start_From_String(&url, &statuscode, &len); //slightly changed to fix http issue MValent 17/3/2017
     fona.HTTP_GET_end();
 
     if (!httpGetStartRes)
