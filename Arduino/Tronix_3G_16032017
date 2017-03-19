@@ -274,7 +274,7 @@ boolean httpGetStartRes = fona.HTTP_GET_start_From_String(&url, &statuscode, &le
     unsigned long start = millis();
     Serial.println("delay");    
     while (millis() < ((start+300000))) {
-      delay(10000);
+      delay(60000);
      }
     
     Serial.println("finished delay");    
